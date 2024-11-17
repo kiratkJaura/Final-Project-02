@@ -9,7 +9,7 @@ print(tf.__version__)  # Check the presence of TensorFlow
 # Image size and batch size
 Imagesize = (500, 500)
 
-# Paths for the test images
+# Paths for the test images;test_crack.jpg, test_missinghead.jpg and test_paintoff.jpg
 test_images = {
     "test_crack": "C:\\Users\\user 123\\OneDrive\\Desktop\\AER 850\\Project 2 Data\\Data\\test\\crack\\test_crack.jpg",
     "test_missinghead": "C:\\Users\\user 123\\OneDrive\\Desktop\\AER 850\\Project 2 Data\\Data\\test\\missing-head\\test_missinghead.jpg",
