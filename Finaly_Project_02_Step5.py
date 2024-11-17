@@ -1,33 +1,33 @@
-## Step 5: Testing the model with test images
+# Importing necessary libraries
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
 import numpy as np
 
-print(tf.__version__)  # Check the presence of TensorFlow
+print(tf.__version__)  # Ensures TensorFlow is installed and available
 
-# Image size and batch size
+# Defining Image size
 Imagesize = (500, 500)
 
-# Paths for the test images;test_crack.jpg, test_missinghead.jpg and test_paintoff.jpg
+# Paths for the test images
 test_images = {
     "test_crack": "C:\\Users\\user 123\\OneDrive\\Desktop\\AER 850\\Project 2 Data\\Data\\test\\crack\\test_crack.jpg",
     "test_missinghead": "C:\\Users\\user 123\\OneDrive\\Desktop\\AER 850\\Project 2 Data\\Data\\test\\missing-head\\test_missinghead.jpg",
     "test_paintoff": "C:\\Users\\user 123\\OneDrive\\Desktop\\AER 850\\Project 2 Data\\Data\\test\\paint-off\\test_paintoff.jpg"
 }
 
-# Load the trained model
+# Loading the trained model
 model = tf.keras.models.load_model('best_model_v3.keras')
 
-# Preprocess the image and predict its class
+# Preprocessing the image and predicting its class
 def predict_image(image_path):
-    # Load and preprocess the image
+    # Loading and preprocessing the images
     img = image.load_img(image_path, target_size=Imagesize)  # Resize to model input size
     img_array = image.img_to_array(img)  # Convert image to array
     img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
     img_array = img_array / 255.0  # Normalize pixel values to [0, 1]
 
-    # Predict the class probabilities
+    # Predicting the class probabilities
     prediction = model.predict(img_array)
 
     # Class labels
@@ -46,8 +46,18 @@ def predict_image(image_path):
 
     # Display the image for visual inspection
     plt.imshow(img)
-    plt.title(f"Predicted: {predicted_class}")
+    plt.title(f"Predicted: {predicted_class}", y=1.08)  # Move title above the image
     plt.axis('off')
+
+    # Adding probability text on the image
+    plt.text(
+        10, 450,  # Bottom-left placement
+        f"Crack: {prediction[0][0]*100:.1f}%\nMissing Head: {prediction[0][1]*100:.1f}%\nPaint Off: {prediction[0][2]*100:.1f}%",
+        fontsize=12, color='green', bbox=dict(facecolor='white', alpha=0.8)
+    )
+
+    # To save the output image with predictions
+    plt.savefig(f"model_testing_{predicted_class}.png")  # Save with a unique name based on class
     plt.show()
 
 # Predicting the class for each test image
